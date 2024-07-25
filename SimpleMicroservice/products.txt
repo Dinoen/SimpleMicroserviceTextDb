@@ -1,3 +1,7 @@
 {"Id":1,"Name":"Sample Product","Price":9.99}
 {"Id":2,"Name":"Sample Product","Price":9.99}
 {"Id":0,"Name":"string","Price":0}
+{"Id":3,"Name":"product 2","Price":1100}
+{"Id":4,"Name":"string","Price":12}
+{"Id":5,"Name":"string","Price":-1}
+{"Id":6,"Name":"string","Price":0}

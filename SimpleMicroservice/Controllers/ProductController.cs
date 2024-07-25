@@ -24,28 +24,15 @@ namespace SimpleMicroservice.Controllers
                 return BadRequest(new { message = "Invalid product data. Product object cannot be null." });
             }
 
-            // check if the ID is an positive integer
-            if (product.Id <= 0)
-            {
-                return BadRequest(new { message = "Invalid product data. Product ID must be greater than zero." });
-            }
-
-            // check if the id is already in use
-            var existingProduct = _productService.GetProduct(product.Id);
-            if (existingProduct != null)
-            {
-                return BadRequest(new { message = "Product ID is already in use." });
-            }
-
             // Perform additional input validation checks on the product properties
             if (string.IsNullOrEmpty(product.Name))
             {
                 return BadRequest(new { message = "Invalid product data. Product name is required." });
             }
             // Check if the price is greater than zero
-            if (product.Price <= 0)
+            if (product.Price < 0)
             {
-                return BadRequest(new { message = "Invalid product data. Product price must be greater than zero." });
+                return BadRequest(new { message = "Invalid product data. Product price must be greater or equal to zero." });
             }
 
             // If all input validation checks pass, proceed with adding the product

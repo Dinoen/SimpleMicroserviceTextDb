@@ -66,8 +66,8 @@ cd SimpleMicroservice
     
     7. Set the request URL:
 
-    https://localhost:5144/api/product (for all products)
-    https://localhost:5144/api/product/{id} (for a specific product, with "id" being an integer)
+    https://localhost:7296/api/product (for all products)
+    https://localhost:7296/api/product/{id} (for a specific product, with "id" being an integer)
 
 6. Testing the API Using Postman
 
@@ -75,7 +75,7 @@ cd SimpleMicroservice
 
     2. Set the request URL:
 
-    https://localhost:5144/api/product
+    https://localhost:7296/api/product
 
     3. Fill in the request body with the following JSON (or something along those lines):
 	
@@ -91,8 +91,8 @@ cd SimpleMicroservice
     
     2. Set the request URL:
 
-    https://localhost:5144/api/product (for all products)
-    https://localhost:5144/api/product/{id} (for a specific product with "id" being an integer)
+    https://localhost:7296/api/product (for all products)
+    https://localhost:7296/api/product/{id} (for a specific product with "id" being an integer)
 
     
 
