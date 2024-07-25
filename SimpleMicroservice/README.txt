@@ -51,7 +51,6 @@ cd SimpleMicroservice
 	3. Fill in the request body with the following JSON:
 	
 	{
-        "Id": 1, 
 		"name": "Product 1",
 		"price": 10.0
 	}
@@ -80,7 +79,6 @@ cd SimpleMicroservice
     3. Fill in the request body with the following JSON (or something along those lines):
 	
 	{
-        "Id": 1, 
 		"name": "Product 1",
 		"price": 10.0
 	}
