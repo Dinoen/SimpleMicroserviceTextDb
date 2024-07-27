@@ -1,84 +1,54 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SimpleMicroservice.Services;
+using SimpleMicroservice.Models;
 
-namespace SimpleMicroservice.Controllers
+[ApiController]
+[Route("api/[controller]")]
+public class ProductController : ControllerBase
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class ProductController : ControllerBase
+    private readonly ProductService _productService;
+
+    public ProductController(ProductService productService)
     {
-        private readonly ProductService _productService;
+        _productService = productService;
+    }
 
-        public ProductController(ProductService productService)
+    [HttpGet]
+    public async Task<IActionResult> GetProducts()
+    {
+        var products = await _productService.GetProducts();
+        return Ok(products);
+    }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetProduct(int id)
+    {
+        var product = await _productService.GetProduct(id);
+        if (product == null)
         {
-            _productService = productService;
+            return NotFound();
         }
+        return Ok(product);
+    }
 
-        [HttpPost]
-        public IActionResult AddProduct([FromBody] Product product)
-        {
-            // Have several guard-clauses to check for invalid input
-            // Check if the product parameter is null
-            if (product == null)
-            {
-                return BadRequest(new { message = "Invalid product data. Product object cannot be null." });
-            }
+    [HttpPost]
+    public async Task<IActionResult> AddProduct(Product product)
+    {
+        var result = await _productService.AddProduct(product);
+        return Ok(result);
+    }
 
-            // Perform additional input validation checks on the product properties
-            if (string.IsNullOrEmpty(product.Name))
-            {
-                return BadRequest(new { message = "Invalid product data. Product name is required." });
-            }
-            // Check if the price is greater than zero
-            if (product.Price < 0)
-            {
-                return BadRequest(new { message = "Invalid product data. Product price must be greater or equal to zero." });
-            }
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateProduct(int id, Product product)
+    {
+        var result = await _productService.UpdateProduct(id, product);
+        return Ok(result);
+    }
 
-            // If all input validation checks pass, proceed with adding the product
-            try
-            {
-                var result = _productService.AddProduct(product);
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { message = "An error occurred while adding the product. " + ex.Message });
-            }
-        }
-
-        [HttpGet]
-        public IActionResult GetProducts()
-        {
-            try
-            {
-                var products = _productService.GetProducts();
-                return Ok(products);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { message = "An error occurred while retrieving products. " + ex.Message });
-            }
-        }
-
-        [HttpGet]
-        [Route("{id}")]
-        public IActionResult GetProduct(int id)
-        {
-            try
-            {
-                var product = _productService.GetProduct(id);
-                if (product == null)
-                {
-                    return NotFound(new { message = "Product not found" });
-                }
-                return Ok(product);
-            }
-            catch (Exception ex)
-            {
-                // Log the exception (you can use a logging framework here)
-                return StatusCode(500, new { message = "An error occurred while retrieving the product. " + ex.Message });
-            }
-        }
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteProduct(int id)
+    {
+        var result = await _productService.DeleteProduct(id);
+        return Ok(result);
     }
 }

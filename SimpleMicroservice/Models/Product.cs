@@ -1,4 +1,4 @@
-﻿namespace SimpleMicroservice
+﻿namespace SimpleMicroservice.Models
 {
     /// <summary>
     /// Represents an item in the system which can be viewed and stored via the api.

@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using SimpleMicroservice.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -5,6 +6,10 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddScoped<ProductService>();
+builder.Services.AddScoped<EntryService>();
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 
 // Add Swagger services
 builder.Services.AddEndpointsApiExplorer();
@@ -26,6 +31,12 @@ builder.Services.AddSwaggerGen(options =>
 
 var app = builder.Build();
 
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    dbContext.Database.Migrate();
+}
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -33,7 +44,7 @@ if (app.Environment.IsDevelopment())
     // Enable middleware to serve generated Swagger as a JSON endpoint.
     app.UseSwagger();
     // Enable middleware to serve Swagger UI (HTML, JS, CSS, etc.),
-    // specifying the Swagger JSON endpoint.
+    // Swagger JSON endpoint.
     app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "SimpleMicroservice v1"));
 }
 
