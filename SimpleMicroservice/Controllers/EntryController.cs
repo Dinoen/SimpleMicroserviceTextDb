@@ -18,27 +18,48 @@ namespace SimpleMicroservice.Controllers
         [HttpGet]
         public async Task<IActionResult> GetEntries()
         {
-            var entries = await _entryService.GetEntries();
-            return Ok(entries);
+            try
+            {
+                var entries = await _entryService.GetEntries();
+                return Ok(entries);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetEntry(int id)
         {
-            var entry = await _entryService.GetEntry(id);
-            if (entry == null)
+            try
             {
-                return NotFound();
+                var entry = await _entryService.GetEntry(id);
+                return Ok(entry);
             }
-            return Ok(entry);
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> AddEntry(Entry entry)
         {
-            var result = await _entryService.AddEntry(entry);
-            return Ok(result);
+            try
+            {
+                var result = await _entryService.AddEntry(entry);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }       
         }
     }
-
 }

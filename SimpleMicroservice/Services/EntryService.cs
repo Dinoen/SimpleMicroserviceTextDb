@@ -18,21 +18,45 @@ namespace SimpleMicroservice.Services
             {
                 throw new ArgumentNullException(nameof(entry), "Entry is null.");
             }
-
-            _context.Entries.Add(entry);
-            await _context.SaveChangesAsync();
-
-            return "Entry added successfully.";
+            try
+            {
+                _context.Entries.Add(entry);
+                await _context.SaveChangesAsync();
+                return "Entry added successfully.";
+            }
+            catch (DbUpdateException ex)
+            {
+                throw new Exception("An error occurred while adding the entry.", ex);
+            }
         }
 
         public async Task<List<Entry>> GetEntries()
         {
-            return await _context.Entries.ToListAsync();
+            try
+            {
+                return await _context.Entries.ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error happened while getting entries.", ex);
+            }
         }
 
         public async Task<Entry> GetEntry(int id)
         {
-            return await _context.Entries.FindAsync(id);
+            try
+            {
+                var entry = await _context.Entries.FindAsync(id);
+                if (entry == null)
+                {
+                    throw new KeyNotFoundException("Entry not found.");
+                }
+                return entry;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"An error happened while getting the entry. Id looked for: {id} ", ex);
+            }
         }
     }
 }
