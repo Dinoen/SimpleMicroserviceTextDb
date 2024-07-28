@@ -27,7 +27,7 @@ cd SimpleMicroservice
 
 	1. Open Swagger by navigating to:
 
-	https://localhost:5144/swagger/index.html
+	https://localhost:7296/swagger/index.html
 
     This should be the default url when the application is ran from visual studio. 
 
