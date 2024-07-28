@@ -26,8 +26,7 @@ namespace SimpleMicroservice.Controllers
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
-            }
-            
+            }          
         }
 
         [HttpGet("{id}")]
